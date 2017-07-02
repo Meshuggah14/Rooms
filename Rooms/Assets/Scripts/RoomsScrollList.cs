@@ -60,11 +60,16 @@ public class RoomsScrollList : MonoBehaviour {
 
 	private void RemoveItems()
 	{
-		while (ContentPanel.childCount > 0)
+		for (int i = 0; i < ContentPanel.childCount; i++)
 		{
-			//TODO check loop
 			GameObject toRemove = transform.GetChild(0).gameObject;
-			ObjectPool.Instance.ReturnObject(toRemove);
-		}
+            ObjectPool.Instance.ReturnObject(toRemove);
+		}	
+//		while (ContentPanel.childCount > 0)
+//		{
+//			//TODO check loop
+//			GameObject toRemove = transform.GetChild(0).gameObject;
+//			ObjectPool.Instance.ReturnObject(toRemove);
+//		}
 	}
 }
