@@ -9,14 +9,38 @@ public class ConfigController: MonoBehaviour
 {
     public ConfigData Config;
     
+    private static ConfigController _configController;
     private string[] _commandLineArguments;
 
+    private ConfigController(){}
     private void Start()
     {
+//        GetCommandLineData();
+//        LoadConfigData();
+    }
+
+    public static ConfigController Instance
+    {
+        get
+        {
+            if (_configController == null)
+            {
+                var dc = new GameObject("ConfigController");
+                dc.AddComponent<ConfigController>();
+            }
+
+            return _configController;
+        }
+    }
+    
+    private void Awake()
+    {
+        _configController = this;
+        
         GetCommandLineData();
         LoadConfigData();
     }
-
+    
     private void LoadConfigData()
     {
         string filePath = GetPathConfigData();

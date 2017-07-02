@@ -1,3 +1,9 @@
 {
-"urldata":"http://test.gamepoint.com.ua/roomlist/roomlist.xml"
+  "urldata": "http://test.gamepoint.com.ua/roomlist/roomlist.xml",
+  "available": [
+    0,
+    2,
+    4,
+    5
+  ]
 }

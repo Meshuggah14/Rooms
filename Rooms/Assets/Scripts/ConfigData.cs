@@ -8,4 +8,6 @@ public class ConfigData
 {
 	//public string UrlData { get; set; }
 	public string urldata;
+
+	public int[] available;
 }

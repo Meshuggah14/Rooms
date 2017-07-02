@@ -16,7 +16,7 @@ public class Game
     public int GameId { get; set; }
     
     [XmlElement("supergame", typeof(SuperGame))] 
-     public List<object> SuperGames { get; set; }
+     public List<SuperGame> SuperGames { get; set; }
     
     [XmlElement("room")] 
     public List<Room> Rooms { get; set; }
