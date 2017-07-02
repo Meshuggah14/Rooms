@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class ObjectPool : MonoBehaviour
 {
-    // the prefab that this object pool returns instances of
-    public GameObject Prefab;
-    
+//    // the prefab that this object pool returns instances of
+//    public GameObject Prefab;
     
     
     private static ObjectPool _objectPool;

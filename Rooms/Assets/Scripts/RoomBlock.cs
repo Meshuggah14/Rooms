@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class RoomBlock : MonoBehaviour
@@ -14,6 +15,29 @@ public class RoomBlock : MonoBehaviour
 
 	public Button JoinButton;
 	
+	private ModalPanel _modalPanel;
+	private UnityAction _btnJoinAction;
+	private UnityAction _btnCancelAction;
+	
+	
+	void Awake () {
+		_modalPanel = ModalPanel.Instance ();
+
+		_btnJoinAction = new UnityAction (JoinAction);
+		_btnCancelAction = new UnityAction (CancelAction);
+	}
+
+	private void CancelAction()
+	{
+		
+	}
+
+	private void JoinAction()
+	{
+		
+	}
+
+
 	// Use this for initialization
 	void Start () {
 		
@@ -26,25 +50,27 @@ public class RoomBlock : MonoBehaviour
 		if(playerIcon != null)
 			PlayerIcon.gameObject.GetComponent<SpriteRenderer>().sprite = playerIcon;
 		if (room.MaxPlayers > room.Players)
-			EnableBtn(JoinButton);
+			EnableBtn(JoinButton, room.Name);
 		else
 		{
 			DisableBtn(JoinButton);
 		}
 	}
 
-	private void EnableBtn(Button btn)
+	private void EnableBtn(Button btn, string roomName)
 	{
 		btn.enabled = true;
 		btn.GetComponent<Button>().interactable = true; 
 		btn.GetComponentInChildren<Text>().text = "Join";
 		btn.GetComponentInChildren<Text>().color = Color.black;
-		JoinButton.onClick.AddListener (BtnClick);
+	
+		JoinButton.onClick.AddListener (
+			() => BtnClick(roomName));
 	}
 
-	public void BtnClick()
+	void BtnClick(string roomName)
 	{
-		//TODO
+		 _modalPanel.Choice ("Do you want to join " + roomName + "?", _btnJoinAction, _btnCancelAction);
 	}
 
 	private void DisableBtn(Button btn)
