@@ -19,7 +19,7 @@ public class Main : MonoBehaviour, ICoroutineExecutor
 
         _netModule = new NetModule(this);
         _uImanager = new UiManager(_rootUiObject);
-        _configModule = new ConfigModule();
+        _configModule = new ConfigModule(_uImanager);
         _roomsPresenter = new RoomsPresenter(_uImanager, _netModule, _configModule);
         _uImanager.SetRoomsWindows(_roomsPresenter);
     }

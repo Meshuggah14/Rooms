@@ -10,9 +10,11 @@ namespace Utils
         public ConfigData Config;
 
         private string[] _commandLineArguments;
+        private UiManager _uiManager;
 
-        public ConfigModule()
+        public ConfigModule(UiManager uImanager)
         {
+            _uiManager = uImanager;
             GetCommandLineData();
             LoadConfigData();
         }
@@ -27,7 +29,8 @@ namespace Utils
             }
             else
             {
-                Debug.LogError("Config file doesn't exist");
+                _uiManager.DialogPresenter.ShowDialog("Can't find config file-" + Environment.NewLine + filePath,
+                    () => _uiManager.DialogPresenter.HideDialog(), "Ok");
             }
         }
 
