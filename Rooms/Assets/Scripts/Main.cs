@@ -1,59 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Presenter;
 using UnityEngine;
+using Utils;
 
-public class Main : MonoBehaviour
+public class Main : MonoBehaviour, ICoroutineExecutor
 {
+    [SerializeField] private Transform _rootUiObject;
+    [SerializeField] public List<ObjectPool> Objectpools;
 
-	public Dropdown DropdownGames;
-	public RoomsScrollList RoomsScrollList;
-	
-	// Use this for initialization
-	void Start ()
-	{
-		DataController.Instance.onParseFinished = FillGamesItems;
-		DropdownGames.onClick = RoomsScrollList.Refresh;
-		GetServerData();
-		//StartCoroutine(Updater());
-	}
+    private UiManager _uImanager;
+    private NetModule _netModule;
+    private RoomsPresenter _roomsPresenter;
+    private ConfigModule _configModule;
 
-	private void GetServerData()
-	{
-		StartCoroutine(DataController.Instance.Request());
-	}
+    void Awake()
+    {
+        ObjectPoolManager.Instance.ObjectPools = Objectpools;
 
-	public void FillGamesItems()
-	{
-		Dictionary<int, string> items = new Dictionary<int, string>();
+        _netModule = new NetModule(this);
+        _uImanager = new UiManager(_rootUiObject);
+        _configModule = new ConfigModule();
+        _roomsPresenter = new RoomsPresenter(_uImanager, _netModule, _configModule);
+        _uImanager.SetRoomsWindows(_roomsPresenter);
+    }
 
-		RoomsContainer rooms = DataController.Instance.Rooms;
-		
-		if (rooms != null && rooms.Games.Count > 0)
-		{
-			foreach (var game in rooms.Games)
-			{
-				if(ConfigController.Instance.Config.available.Contains(game.GameId))
-					items.Add(game.GameId,game.Name);
-			}
-			
-			DropdownGames.FillDropDown(items);
-			
-		}
-		
-	}
-	
-	private IEnumerator Updater()
-	{
-		while (true)
-		{
-			StartCoroutine(DataController.Instance.Request());
-			yield return new WaitForSeconds(30);
-		}
-	}
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+        _roomsPresenter.LoadMaindata();
+    }
 }

@@ -1,33 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
+using Data;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SuperGameBlock : MonoBehaviour
 {
+	[SerializeField] private Slider _progressBar;
+	[SerializeField] private RawImage _coinIcon;
+	[SerializeField] private Text _price;
 
-	public ProgressBar ProgressBar;
-
-	public Image CoinIcon;
-
-	public Text Price;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-
-	public void Setup(SuperGame superGame, Sprite coinIcon)
+	public void Setup(SuperGame superGame, Texture2D coinIcon)
 	{
-		Price.text = superGame.Price.ToString();
+		_price.text = superGame.Price.ToString(CultureInfo.InvariantCulture);
+
 		if (coinIcon != null)
-			CoinIcon.gameObject.GetComponent<SpriteRenderer>().sprite = coinIcon;
-		ProgressBar.UpdateProgressBar(superGame.Current, superGame.Max);
+			_coinIcon.gameObject.GetComponent<RawImage>().texture = coinIcon;
+
+		_progressBar.maxValue = superGame.Max;
+		_progressBar.minValue = 0;
+		_progressBar.value = superGame.Current;
+		_progressBar.GetComponentInChildren<Text>().text = superGame.Current + "/" + superGame.Max;
 	}
-	public void BtnClick()
-	{
-		//TODO
-	}
-	
 }
